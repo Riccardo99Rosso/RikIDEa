@@ -676,15 +676,15 @@ def colon_auto_indent(event):
 	current = math.trunc(float(editor.index("insert")))
 	current = str(current) + '.0'
 	current_text = editor.get(current, "insert")
-	current_text = list(current_text.split(" "))
-	
-	if current_text[0] in keyword.kwlist:		
-		line = editor.get("insert linestart", "insert")
-		match = re.match(r'^(\s+)', line)
-		whitespace = match.group(0) if match else ""
-		editor.insert("insert", f":\n{whitespace}\t")
-		draw_lines(event)
-		return "break"
+	print(current_text)
+	for k in keyword.kwlist:	
+		if k in current_text:		
+			line = editor.get("insert linestart", "insert")
+			match = re.match(r'^(\s+)', line)
+			whitespace = match.group(0) if match else ""
+			editor.insert("insert", f":\n{whitespace}\t")
+			draw_lines(event)
+			return "break"
 	
 def auto_indent(event):
 	text = event.widget
