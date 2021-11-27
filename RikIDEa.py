@@ -673,19 +673,22 @@ def reverse_tab(*args):
 			pass
 	
 def colon_auto_indent(event):
-	current = math.trunc(float(editor.index("insert")))
-	current = str(current) + '.0'
-	current_text = editor.get(current, "insert")
-	current_text = current_text.replace("\t", " ")
-	current_list = current_text.split(" ")
-	current_list = [x for x in current_list if x]
-	if current_list[0] in keyword.kwlist:		
-		line = editor.get("insert linestart", "insert")
-		match = re.match(r'^(\s+)', line)
-		whitespace = match.group(0) if match else ""
-		editor.insert("insert", f":\n{whitespace}\t")
-		draw_lines(event)
-		return "break"
+	try:	
+		current = math.trunc(float(editor.index("insert")))
+		current = str(current) + '.0'
+		current_text = editor.get(current, "insert")
+		current_text = current_text.replace("\t", " ")
+		current_list = current_text.split(" ")
+		current_list = [x for x in current_list if x]
+		if current_list[0] in keyword.kwlist:		
+			line = editor.get("insert linestart", "insert")
+			match = re.match(r'^(\s+)', line)
+			whitespace = match.group(0) if match else ""
+			editor.insert("insert", f":\n{whitespace}\t")
+			draw_lines(event)
+			return "break"
+	except:
+		pass
 	
 def auto_indent(event):
 	text = event.widget
