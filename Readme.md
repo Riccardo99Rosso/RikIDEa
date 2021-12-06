@@ -7,7 +7,7 @@ Oltre ai comandi che vengono mostrati nel menu' in alto aggiungo:
 
 - Ctrl + rotella del mouse per zoomare avanti e indietro (o zoom con il trackpad)
 - esc al posto di F11 per uscire dallo schermo intero
-- Se attivata la modalità Auto-fill dal menù edit si può utilizzare Ctrl (sinistro) per visualizzare le altre parole suggerite nel completamento di una parola e tab o Shift destro per completarla.
+- Se attivata la modalità Auto-fill dal menù edit si può utilizzare 'alt gr' per visualizzare le altre parole suggerite nel completamento di una parola e tab o Shift destro per completarla.
 
 Una problematica che in questa versione non ha purtroppo soluzione è l'impossibilità di leggere lo storico (undo e redo) nel momento in cui si passa da uno script all'altro poichè
 non vengono usati tab e viene gestito il multi-script attraverso la chiusura e riapertura dei files.
