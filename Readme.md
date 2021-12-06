@@ -10,7 +10,7 @@ Oltre ai comandi che vengono mostrati nel menu' in alto aggiungo:
 - Se attivata la modalità Auto-fill dal menù edit si può utilizzare 'alt gr' per visualizzare le altre parole suggerite nel completamento di una parola e tab o Shift destro per completarla.
 
 Una problematica che in questa versione non ha purtroppo soluzione è l'impossibilità di leggere lo storico (undo e redo) nel momento in cui si passa da uno script all'altro poichè
-non vengono usati tab e viene gestito il multi-script attraverso la chiusura e riapertura dei files (visibili con l'impostazione 'Show file window' dal menù window).
+non vengono usati tab e viene gestito il multi-script attraverso la chiusura e riapertura dei files (visibili con l'impostazione 'Show files window' dal menù window).
 
 Aggiungo inoltre che:
 
