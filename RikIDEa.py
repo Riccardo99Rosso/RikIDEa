@@ -6,6 +6,7 @@ from tkinter import *
 import tkinter.font as tkFont
 from tkinter.scrolledtext import *
 from tkinter.filedialog import asksaveasfilename, askopenfilename
+from tkinter.messagebox import askyesno
 from tkinter import messagebox as MessageBox
 import decimal
 import os
@@ -58,7 +59,85 @@ x = (ws/2) - (w/2)
 y = (hs/2) - (h/2)
 ide.geometry('%dx%d' % (x + 200, y +200))
 
+#files window
+
+def buttonAllFiles():
+	dAllFiles()
+	   
+files_path_list = []
+
+files_w = Toplevel(ide)
+files_w.title("files window")
+files_w.geometry('200x300')
+delete_all = Button(files_w, text="Close all", command=buttonAllFiles, fg='white', bg=rowsbackground)
+delete_all.pack(side = BOTTOM, fill = BOTH)
+listbox = Listbox(files_w, fg='white', bg='black')
+listbox.pack(side = LEFT, fill = BOTH, expand=True)
+scrollbar = Scrollbar(files_w)
+scrollbar.pack(side = RIGHT, fill = BOTH)
+show_files = False
+
+def disable_event():
+	global show_files
+	files_w.withdraw()
+	show_files = False
+
+files_w.protocol("WM_DELETE_WINDOW", disable_event)
+listbox.config(yscrollcommand = scrollbar.set)
+scrollbar.config(command = listbox.yview)
+files_w.withdraw()
+
 # Menu functions
+def openFileByWindow(event):
+	try:
+		end_index = listbox.index("end")
+		if end_index != 0:
+			save()	
+		selection = listbox.curselection()
+		path = files_path_list[selection[0]]
+		open_file_with_path(path)
+	except:
+		pass
+
+def rightClick(event):
+	global file_path
+	try:
+		end_index = listbox.index("end")
+		if end_index != 0:
+			save()	
+		listbox.selection_clear(0,END)
+		listbox.selection_set(listbox.nearest(event.y))
+		listbox.activate(listbox.nearest(event.y))
+		selection = listbox.curselection()
+		files_path_list.pop(selection[0])
+		listbox.delete(selection)
+		try:
+			path = files_path_list[0]
+			open_file_with_path(path)
+		except:
+			new_file()
+		
+	except:
+		pass
+
+def dAllFiles():
+	answer = askyesno(title='confirmation', message='Are you sure that you want to close all files?')
+	if answer:
+		save()
+		listbox.delete(0,'end')
+		files_path_list.clear()
+		new_file()
+
+def show_files_window(*event):
+	global show_files
+	if show_files:
+		files_w.withdraw()
+		show_files = False
+	else:
+		files_w.transient(ide)
+		files_w.deiconify()
+		show_files = True
+		
 def set_file_path(path, name):
 	global file_path
 	global file_name
@@ -83,6 +162,23 @@ def open_file(*k):
 	try:
 		global file_name
 		path = askopenfilename(filetypes = [('Python Files', '*.py')])
+		#adding in a list
+		name = path.split('/')[-1]
+		ide.title(ide_title + ' - ' + name)
+		with open(path, 'r') as file:
+			code = file.read()
+			editor.delete('1.0', END)
+			editor.insert('1.0', code)
+			set_file_path(path, name)
+			files_path_list.append(path)
+			listbox.insert(END, name)
+		draw_lines(True)
+		text_list_update(True)
+	except:
+		pass
+		
+def open_file_with_path(path):
+	try:
 		name = path.split('/')[-1]
 		ide.title(ide_title + ' - ' + name)
 		with open(path, 'r') as file:
@@ -96,13 +192,22 @@ def open_file(*k):
 		pass
 	
 def save_as(*k):
+	global file_path
+	global file_name
 	try:
 		path = asksaveasfilename(defaultextension=".py", filetypes = [('Python Files', '*.py')])
 		name = path.split('/')[-1]
 		ide.title(ide_title + ' - ' + name)
+		files_path_list.append(path)
+		listbox.insert(END, name)
 		with open(path, 'w') as file:
 			code = editor.get('1.0', END)
 			file.write(code)
+#			if file_path != '':
+#				i = files_path_list.index(file_path)
+#				files_path_list.remove(file_path)
+#				idx = listbox.get(0, tk.END).index(file_name)
+#				listbox.delete(idx)
 			set_file_path(path, name)
 	except:
 		pass
@@ -115,6 +220,9 @@ def save(*k):
 			name = path.split('/')[-1]
 			ide.title(ide_title + ' - ' + name)
 			set_file_path(path, name)
+			set_file_path(path, name)
+			files_path_list.append(path)
+			listbox.insert(END, name)
 		else:
 			path = file_path
 		with open(path, 'w') as file:
@@ -607,6 +715,7 @@ menu_bar.add_cascade(label = 'Edit', menu = edit_menu)
 
 window_menu = Menu(menu_bar, bg='navy', fg='white')
 window_menu.add_command(label = 'Fullscreen on/off', command = set_fullscreen, accelerator = "F11")
+window_menu.add_command(label="Show Files window", command=show_files_window, accelerator = "Ctrl-j")
 window_menu.add_command(label = 'Zoom in', command = zoom_in, accelerator = "Ctrl'+'")
 window_menu.add_command(label = 'Zoom out', command = zoom_out, accelerator = "Ctrl'-'")
 menu_bar.add_cascade(label = 'Window', menu = window_menu)
@@ -821,12 +930,37 @@ editor.bind('<Button-3>',rClicker, add='')
 editor.bind('<Control-f>', search_text)
 editor.bind('<Control-l>', indent_fix)
 editor.bind('<Control-Alt-b>', set_auto_fill)
+editor.bind('<Control-j>', show_files_window)
+files_w.bind('<Control-j>', show_files_window)
+listbox.bind('<Control-j>', show_files_window)
 ide.bind('<F11>', set_fullscreen)
 ide.bind('<Escape>', end_fullscreen)
+listbox.bind("<Button-3>", rightClick)
+listbox.bind('<<ListboxSelect>>', openFileByWindow)
 
 zoom_in(True)
 
 ide.mainloop()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
