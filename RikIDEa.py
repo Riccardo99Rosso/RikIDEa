@@ -690,6 +690,22 @@ def set_auto_fill(*event):
 		editor.bind('<KeyRelease>', auto_fill)
 	autofill = not autofill
 
+def add_comments(*args):
+	try:
+		start_line = math.trunc(float(editor.index("sel.first")))
+		last_line = math.trunc(float(editor.index("sel.last")))
+		
+		for x in range(start_line, last_line+1):
+			if editor.get(f"{x}.0") == '#':
+				editor.delete(f"{x}.0")
+			else:	
+				editor.insert(f"{x}.0", "#")
+
+		return 'break'
+
+	except:
+		pass
+
 # Menu settings  
 menu_bar = Menu(ide)
 file_menu = Menu(menu_bar, bg='navy', fg='white')
@@ -709,6 +725,7 @@ edit_menu.add_command(label = 'Select All', command = select_all, accelerator = 
 edit_menu.add_command(label = 'Indent', command = gen_indent, accelerator = "Tab")
 edit_menu.add_command(label = 'Reverse Indent', command = gen_revindent, accelerator = "Ctrl-,")
 edit_menu.add_command(label = 'Search text', command = search_text, accelerator = "Ctrl-F")
+edit_menu.add_command(label = 'Comment/Uncomment', command = add_comments, accelerator = "Ctrl-/")
 edit_menu.add_command(label = 'Auto-fill on/off', command = set_auto_fill, accelerator = "Ctrol-Alt-B")
 edit_menu.add_command(label = 'Indentation fixer', command = indent_fix, accelerator = "Ctrl-L")
 menu_bar.add_cascade(label = 'Edit', menu = edit_menu)
@@ -737,22 +754,6 @@ def tab(*args):
 			editor.insert(f"{x}.0", "\t")
 			
 		return 'break'   
-	except:
-		pass
-
-def add_comments(*args):
-	try:
-		start_line = math.trunc(float(editor.index("sel.first")))
-		last_line = math.trunc(float(editor.index("sel.last")))
-		
-		for x in range(start_line, last_line+1):
-			if editor.get(f"{x}.0") == '#':
-				editor.delete(f"{x}.0")
-			else:	
-				editor.insert(f"{x}.0", "#")
-
-		return 'break'
-
 	except:
 		pass
 
@@ -929,6 +930,7 @@ editor.bind('<Control-MouseWheel>', zoom_wheel)
 editor.bind('<Button-3>',rClicker, add='')
 editor.bind('<Control-f>', search_text)
 editor.bind('<Control-l>', indent_fix)
+editor.bind('<Control-/>')
 editor.bind('<Control-Alt-b>', set_auto_fill)
 editor.bind('<Control-j>', show_files_window)
 files_w.bind('<Control-j>', show_files_window)
@@ -941,6 +943,8 @@ listbox.bind('<<ListboxSelect>>', openFileByWindow)
 zoom_in(True)
 
 ide.mainloop()
+
+
 
 
 
