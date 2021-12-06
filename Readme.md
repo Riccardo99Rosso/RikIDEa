@@ -1,7 +1,7 @@
 # RikIDEa
 
 RIkIDEa è un micro IDE creato con l'intento di avere un IDE light ed editabile facilmente strutturato soprattutto per i principianti.
-Proprio seguendo quest'ultimo punto l'IDE è strutturato in un unico script costruito per poter essere aperto in edit se qualcosa vuole essere modificato all'interno dell'IDE e con il classico doppio click quando lo si volesse utilizzare come software.
+L'IDE è strutturato in un unico script costruito per poter essere aperto in edit se qualcosa vuole essere modificato all'interno dell'IDE e con il classico doppio click quando lo si volesse utilizzare come software.
 La struttura interna non sfrutta oggetti che non siano quelli incorporati nelle librerie Python e quindi utilizza la semplice programmazione procedurale.
 Oltre ai comandi che vengono mostrati nel menu' in alto aggiungo:
 
