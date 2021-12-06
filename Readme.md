@@ -1,6 +1,6 @@
 # RikIDEa
 
-RIkIDEa è un micro IDE mono script (non gestisce più di un tab alla volta in questa versione) creato con l'intento di avere un IDE light ed editabile facilmente.
+RIkIDEa è un micro IDE creato con l'intento di avere un IDE light ed editabile facilmente strutturato soprattutto per i principianti.
 Proprio seguendo quest'ultimo punto l'IDE è strutturato in un unico script costruito per poter essere aperto in edit se qualcosa vuole essere modificato all'interno dell'IDE e con il classico doppio click quando lo si volesse utilizzare come software.
 La struttura interna non sfrutta oggetti che non siano quelli incorporati nelle librerie Python e quindi utilizza la semplice programmazione procedurale.
 Oltre ai comandi che vengono mostrati nel menu' in alto aggiungo:
@@ -8,6 +8,9 @@ Oltre ai comandi che vengono mostrati nel menu' in alto aggiungo:
 - Ctrl + rotella del mouse per zoomare avanti e indietro (o zoom con il trackpad)
 - esc al posto di F11 per uscire dallo schermo intero
 - Se attivata la modalità Auto-fill dal menù edit si può utilizzare Ctrl (sinistro) per visualizzare le altre parole suggerite nel completamento di una parola e tab o Shift destro per completarla.
+
+Una problematica che in questa versione non ha purtroppo soluzione è l'impossibilità di leggere lo storico (undo e redo) nel momento in cui si passa da uno script all'altro poichè
+non vengono usati tab e viene gestito il multi-script attraverso la chiusura e riapertura dei files.
 
 Aggiungo inoltre che:
 
