@@ -163,8 +163,9 @@ def open_file(*k):
 		global file_name
 		path = askopenfilename(filetypes = [('Python Files', '*.py')])
 		#adding in a list
-		name = path.split('/')[-1]
-		ide.title(ide_title + ' - ' + name)
+		if path:			
+			name = path.split('/')[-1]
+			ide.title(ide_title + ' - ' + name)
 		with open(path, 'r') as file:
 			code = file.read()
 			editor.delete('1.0', END)
@@ -932,8 +933,6 @@ editor.bind('<Control-f>', search_text)
 editor.bind('<Control-l>', indent_fix)
 editor.bind('<Control-Alt-b>', set_auto_fill)
 editor.bind('<Control-j>', show_files_window)
-editor.bind('<BackSpace>', draw_lines)
-editor.bind("<Button-1>", draw_lines)
 files_w.bind('<Control-j>', show_files_window)
 listbox.bind('<Control-j>', show_files_window)
 ide.bind('<F11>', set_fullscreen)
