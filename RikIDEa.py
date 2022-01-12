@@ -822,16 +822,44 @@ def cursor_back():
 	editor.mark_set("insert", "%d.%d" % (new_integ, dec_num - 1))
 
 def autocomplete_rpar(event):
-	editor.insert(tk.INSERT, ')')
-	cursor_back()
+	curr = editor.index(tk.INSERT)
+	d = decimal.Decimal(curr)
+	exp_num = abs(d.as_tuple().exponent)
+	new_integ, dec = divmod(float(curr), 1)
+	new_integ = decimal.Decimal(new_integ)
+	dec_num = d - new_integ
+	for i in range(exp_num):
+		dec_num = dec_num * 10
+	print(editor.get(curr))
+	if not editor.get(curr).isalnum():
+		editor.insert(tk.INSERT, ')')
+		cursor_back()
 	
 def autocomplete_quote(event):
-	editor.insert(tk.INSERT, "'")
-	cursor_back()
+	curr = editor.index(tk.INSERT)
+	d = decimal.Decimal(curr)
+	exp_num = abs(d.as_tuple().exponent)
+	new_integ, dec = divmod(float(curr), 1)
+	new_integ = decimal.Decimal(new_integ)
+	dec_num = d - new_integ
+	for i in range(exp_num):
+		dec_num = dec_num * 10
+	if not editor.get("%d.%d" % (new_integ, dec_num - 1)).isalnum():	
+		editor.insert(tk.INSERT, "'")
+		cursor_back()
 
 def autocomplete_dbquote(event):
-	editor.insert(tk.INSERT, '"')
-	cursor_back()
+	curr = editor.index(tk.INSERT)
+	d = decimal.Decimal(curr)
+	exp_num = abs(d.as_tuple().exponent)
+	new_integ, dec = divmod(float(curr), 1)
+	new_integ = decimal.Decimal(new_integ)
+	dec_num = d - new_integ
+	for i in range(exp_num):
+		dec_num = dec_num * 10
+	if not editor.get("%d.%d" % (new_integ, dec_num - 1)).isalnum():
+		editor.insert(tk.INSERT, '"')
+		cursor_back()
 		
 def draw_lines(event):
 	num_rows = int(editor.index('end').split('.')[0])
@@ -943,3 +971,7 @@ listbox.bind('<<ListboxSelect>>', openFileByWindow)
 zoom_in(True)
 
 ide.mainloop()
+
+
+
+
