@@ -20,6 +20,7 @@ import io
 import tokenize
 import keyword
 import re
+import time
 
 # Global variables
 ide_title = 'RikIDEa'
@@ -186,6 +187,7 @@ def open_file_with_path(path):
 			code = file.read()
 			editor.delete('1.0', END)
 			editor.insert('1.0', code)
+			editor.delete("end-1l","end")
 			set_file_path(path, name)
 		draw_lines(True)
 		text_list_update(True)
@@ -594,6 +596,7 @@ def ok_word(event):
 	editor.unbind('<Tab>')
 	editor.bind('<Tab>', tab)
 	
+	
 def auto_fill(event):
 	global curr
 	global text_list
@@ -971,7 +974,3 @@ listbox.bind('<<ListboxSelect>>', openFileByWindow)
 zoom_in(True)
 
 ide.mainloop()
-
-
-
-
