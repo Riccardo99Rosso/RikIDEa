@@ -31,7 +31,7 @@ search_text_widget = ''
 searchwin = ''
 font_size = 10
 font_name = 'Courier New'
-rowsbackground = 'dimgrey'
+rowsbackground = 'grey11'
 background = 'black'
 foreground = 'white'
 search_list = list()
@@ -47,6 +47,16 @@ index = 0
 autofill = False
 oksearch	= ''
 var_label = ''
+template = '''
+
+def main():
+	#insert code here
+	
+
+if __name__ == "__main__":
+	main()
+
+'''
 
 # General geometry
 ide = Tk()
@@ -254,6 +264,7 @@ def base_cmd(command):
 	general_path = general_path[0] + '/'
 	os.chdir(general_path)
 	os.system(cmd)   
+	
 
 def is_tab_reversible():
 	try:
@@ -709,6 +720,13 @@ def add_comments(*args):
 
 	except:
 		pass
+		
+def insert_template(event):
+    editor.insert("insert", template)
+    draw_lines(True)
+    auto_fill(True)
+    
+    
 
 # Menu settings  
 menu_bar = Menu(ide)
@@ -722,6 +740,7 @@ file_menu.add_command(label = 'Exit', command = exit, accelerator = "Ctrl+Q")
 menu_bar.add_cascade(label = 'File', menu = file_menu)
 
 edit_menu = Menu(menu_bar, bg='navy', fg='white')
+edit_menu.add_command(label = 'Insert main', command = insert_template, accelerator = "Ctrl-M")
 edit_menu.add_command(label = 'Copy', command = text_copy, accelerator = "Ctrl-C")
 edit_menu.add_command(label = 'Cut', command = text_cut, accelerator = "Ctrl-X")
 edit_menu.add_command(label = 'Paste', command = text_paste, accelerator = "Ctrl-V")
@@ -964,6 +983,7 @@ editor.bind('<Control-f>', search_text)
 editor.bind('<Control-l>', indent_fix)
 editor.bind('<Control-Alt-b>', set_auto_fill)
 editor.bind('<Control-j>', show_files_window)
+editor.bind('<Control-m>', insert_template)
 files_w.bind('<Control-j>', show_files_window)
 listbox.bind('<Control-j>', show_files_window)
 ide.bind('<F11>', set_fullscreen)
