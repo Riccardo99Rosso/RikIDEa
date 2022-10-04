@@ -304,8 +304,13 @@ def run_alone(*event):
 	last_line = math.trunc(float(editor.index("sel.last")))
 	
 	count = 0
+	alt_text = ""
 	while(count < start_line - 1):
-		alone_file.writelines('\n')
+		alt_text = editor.get(float(count + 1), float(count + 2))
+		if ("from" in alt_text or "import" in alt_text):
+			alone_file.writelines(alt_text) 
+		else:
+			alone_file.writelines('\n')
 		count += 1
 	
 	alone_text = editor.get(editor.index("sel.first"), editor.index("sel.last"))
